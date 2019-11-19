@@ -31,7 +31,7 @@ App::run()
     int cnt = 0;
     do
     {
-        std::cout << "How many VMs want to attach? (up to 9): ";
+        std::cout << "--> How many VMs want to attach? (up to 9): ";
         std::cin >> cnt;
     } while (cnt < 1 | cnt > 9);
     
@@ -42,10 +42,10 @@ App::run()
     {
         memset(g_mouse, 0, BUF_SIZE);
         memset(g_kbd, 0, BUF_SIZE);
-        std::cout << "Input info about guest no." << i+1 << std::endl;
-        std::cout << "Gadget mouse device node : ";
+        std::cout << "--> Input info about guest no." << i+1 << std::endl;
+        std::cout << "--> Gadget mouse device node : ";
         std::cin >> g_mouse;
-        std::cout << "Gadget keyboard device node : ";
+        std::cout << "--> Gadget keyboard device node : ";
         std::cin >> g_kbd;
         sysSwitch.addSystem( new System(g_mouse, g_kbd) );
     }
@@ -59,6 +59,7 @@ App::run()
         &SystemSwitch::portKBD,
         &sysSwitch
     );
+    std::cout << "--> Porters are working :)" << std::endl;
     tPortMouse.join();
     tPortKBD.join();
 
