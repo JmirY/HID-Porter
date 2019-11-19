@@ -8,14 +8,14 @@
 
 System::System(const char* mouse_node, const char* kbd_node)
 {
-    m_mouse_fd = open(mouse_node, O_RDONLY | O_NONBLOCK);
+    m_mouse_fd = open(mouse_node, O_WRONLY | O_NONBLOCK);
     if (m_mouse_fd < 0)
     {
         perror("[ERR] Opening gadget mouse node failed");
     }
     std::cout << "[DBG] Gadget mouse fd opened : " << m_mouse_fd << std::endl;
 
-    m_kbd_fd = open(kbd_node, O_RDONLY | O_NONBLOCK);
+    m_kbd_fd = open(kbd_node, O_WRONLY | O_NONBLOCK);
     if (m_kbd_fd < 0)
     {
         perror("[ERR] Opening gadget keyboard node failed");
