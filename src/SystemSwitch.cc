@@ -85,7 +85,7 @@ SystemSwitch::portKBD()
         // check if user want to change data direction
         // if 'm_active' is host(= 0) then do not send data
         ret = checkKeyCombo(buf);
-        if (ret >= 0 && m_active != ret)
+        if (ret >= 0 && ret < m_systems.size() && m_active != ret)
         {
             if (ret == 0)
                 host->unlockEvent();
