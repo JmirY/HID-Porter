@@ -14,9 +14,10 @@ public:
 
 public:
     void addSystem(System*);
-    void deliver();
+    void portMouse();
+    void portKBD();
     int getSize() { return m_systems.size(); }
-    int checkByte(char* buf);
+    int checkByte(const char* buf);
 
 private:
     std::vector<System*> m_systems;

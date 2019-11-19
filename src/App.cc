@@ -49,8 +49,5 @@ App::run()
         sysSwitch.addSystem( new System(g_mouse, g_kbd) );
     }
 
-    // deliver HID data
-    // sysSwitch.deliver();
-
     delete host;
 }
