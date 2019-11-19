@@ -3,6 +3,7 @@
 #include "SystemSwitch.h"
 #include <iostream>
 #include <cstring>
+#include <bitset>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -41,7 +42,7 @@ SystemSwitch::portMouse()
 
         // check if user want to change data direction
         // if 'm_active' is host(= 0) then do not send data
-        tmp = checkByte(buf);
+        tmp = checkKeyCombo(buf);
         if (tmp >= 0 && m_active != tmp)
         {
             m_active = tmp;
@@ -63,7 +64,14 @@ SystemSwitch::portMouse()
 }
 
 int
-SystemSwitch::checkByte(const char* buf)
+SystemSwitch::checkKeyCombo(const char* buf)
 {
-
+    std::bitset<8>first_byte(buf[0]);
+    std::bitset<8>third_byte(buf[2]);
+    unsigned long third = third_byte.to_ulong();
+    if (first_byte.to_ulong() == 4 && third > 29 && third < 40)
+    {
+        return third - 30;
+    }
+    return -1;
 }

@@ -17,7 +17,9 @@ public:
     void portMouse();
     void portKBD();
     int getSize() { return m_systems.size(); }
-    int checkByte(const char* buf);
+    // return -1 if invalid command
+    // return 0~9 as designated system index
+    int checkKeyCombo(const char* buf);
 
 private:
     std::vector<System*> m_systems;
