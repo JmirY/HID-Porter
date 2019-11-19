@@ -8,13 +8,13 @@
 
 System::System(const char* mouse_node, const char* kbd_node)
 {
-    m_mouse_fd = open(mouse_node, O_RDONLY);
+    m_mouse_fd = open(mouse_node, O_RDONLY | O_NONBLOCK);
     if (m_mouse_fd < 0)
     {
         perror("[ERR] Opening gadget mouse node failed");
     }
 
-    m_kbd_fd = open(kbd_node, O_RDONLY);
+    m_kbd_fd = open(kbd_node, O_RDONLY | O_NONBLOCK);
     if (m_kbd_fd < 0)
     {
         perror("[ERR] Opening gadget keyboard node failed");
