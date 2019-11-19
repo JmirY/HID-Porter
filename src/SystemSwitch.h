@@ -13,13 +13,15 @@ public:
     ~SystemSwitch() {}
 
 public:
+    // add System instance to 'm_systems'
     void addSystem(System*);
+    // HID devices' data porting methods
     void portMouse();
     void portKBD();
-    int getSize() { return m_systems.size(); }
     // return -1 if invalid command
     // return 0~9 index of designated system
     int checkKeyCombo(const char* buf);
+    int getSize() { return m_systems.size(); }
 
 private:
     std::vector<System*> m_systems;
