@@ -10,7 +10,7 @@
 void
 SystemSwitch::addSystem(System* sys)
 {
-    if (m_systems.size() == 9)
+    if (m_systems.size() == MAX_SYS_LEN)
     {
         perror("[ERR] Vector is full");
         return;

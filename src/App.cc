@@ -4,13 +4,12 @@
 #include "SystemSwitch.h"
 #include <iostream>
 #include <cstring>
-#include <unistd.h> // sleep
 
 #define HOST_MOUSE "/dev/hidraw2"
 #define HOST_KBD "/dev/hidraw0"
 #define HOST_MOUSE_EV "/dev/input/event17"
 #define HOST_KBD_EV "/dev/input/event11"
-#define BUF_SIZE 256
+#define BUF_SIZE 64
 
 void
 App::run()
@@ -24,7 +23,8 @@ App::run()
         HOST_MOUSE_EV,
         HOST_KBD_EV
     );
-    SystemSwitch sysSwitch(host);
+    SystemSwitch sysSwitch = SystemSwitch();
+    sysSwitch.addSystem(host);
 
     // get the number of VMs
     int cnt = 0;
