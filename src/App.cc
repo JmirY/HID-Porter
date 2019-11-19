@@ -4,6 +4,7 @@
 #include "SystemSwitch.h"
 #include <iostream>
 #include <cstring>
+#include <thread>
 
 #define HOST_MOUSE "/dev/hidraw2"
 #define HOST_KBD "/dev/hidraw0"
@@ -48,6 +49,18 @@ App::run()
         std::cin >> g_kbd;
         sysSwitch.addSystem( new System(g_mouse, g_kbd) );
     }
+
+    // port HID device input data to designated system
+    std::thread tPortMouse(
+        &SystemSwitch::portMouse,
+        &sysSwitch
+    );
+    std::thread tPortKBD(
+        &SystemSwitch::portKBD,
+        &sysSwitch
+    );
+    tPortMouse.join();
+    tPortKBD.join();
 
     delete host;
 }
