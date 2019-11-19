@@ -3,12 +3,13 @@
 #include "System.h"
 #include <vector>
 
+#define MAX_SYS_LEN 10
+
 class SystemSwitch
 {
 public:
-    SystemSwitch() {}
-    SystemSwitch(HostSystem* host)
-        : m_host(host), m_active(0) { m_systems.reserve(9); }
+    SystemSwitch()
+        : m_active(0) { m_systems.reserve(MAX_SYS_LEN); }
     ~SystemSwitch() {}
 
 public:
@@ -18,7 +19,6 @@ public:
     int checkByte(char* buf);
 
 private:
-    HostSystem* m_host;
     std::vector<System*> m_systems;
     // index of active system (host=0, guest=1~9)
     int m_active;
