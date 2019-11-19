@@ -9,7 +9,7 @@ public:
     virtual ~System();
 
     int getMouse() {return m_mouse_fd;}
-    int getKBD() {return m_kbd_fd;}
+    int getKBD()   {return m_kbd_fd;}
 
 protected:
     int m_mouse_fd;

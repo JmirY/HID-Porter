@@ -67,9 +67,10 @@ SystemSwitch::portKBD()
 {
     char buf[BUF_SIZE] = {0};
     int host_fd, guest_fd;
-    int ret = 0, tmp = 0;
+    int ret = 0;
 
-    host_fd = m_systems[0]->getKBD();
+    HostSystem* host = dynamic_cast<HostSystem*>(m_systems[0]);
+    host_fd = host->getKBD();
     while (1)
     {
         memset(buf, 0, BUF_SIZE);
@@ -83,10 +84,14 @@ SystemSwitch::portKBD()
 
         // check if user want to change data direction
         // if 'm_active' is host(= 0) then do not send data
-        tmp = checkKeyCombo(buf);
-        if (tmp >= 0 && m_active != tmp)
+        ret = checkKeyCombo(buf);
+        if (ret >= 0 && m_active != ret)
         {
-            m_active = tmp;
+            if (ret == 0)
+                host->unlockEvent();
+            else
+                host->lockEvent();
+            m_active = ret;
             continue;
         }
 
