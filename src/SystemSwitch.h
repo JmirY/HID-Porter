@@ -18,11 +18,12 @@ public:
     void portKBD();
     int getSize() { return m_systems.size(); }
     // return -1 if invalid command
-    // return 0~9 as designated system index
+    // return 0~9 index of designated system
     int checkKeyCombo(const char* buf);
 
 private:
     std::vector<System*> m_systems;
-    // index of active system (host=0, guest=1~9)
+    // index of system where data will be streamed
+    // (host=0, guest=1~9)
     int m_active;
 };

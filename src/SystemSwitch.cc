@@ -40,6 +40,39 @@ SystemSwitch::portMouse()
             continue;
         }
 
+        if (m_active)
+        {
+            // send data
+            guest_fd = m_systems[m_active]->getMouse();
+            ret = write(guest_fd, buf, BUF_SIZE);
+            if (ret < 0)
+            {
+                perror("[ERR] Writing guest mouse fd failed");
+                continue;
+            }
+        }
+    }
+}
+
+void
+SystemSwitch::portKBD()
+{
+    char buf[BUF_SIZE] = {0};
+    int host_fd, guest_fd;
+    int ret = 0, tmp = 0;
+
+    host_fd = m_systems[0]->getKBD();
+    while (1)
+    {
+        memset(buf, 0, BUF_SIZE);
+        // read data
+        ret = read(host_fd, buf, BUF_SIZE);
+        if (ret < 0)
+        {
+            perror("[ERR] Reading host keyboard fd failed");
+            continue;
+        }
+
         // check if user want to change data direction
         // if 'm_active' is host(= 0) then do not send data
         tmp = checkKeyCombo(buf);
@@ -52,11 +85,11 @@ SystemSwitch::portMouse()
         if (m_active)
         {
             // send data
-            guest_fd = m_systems[m_active]->getMouse();
+            guest_fd = m_systems[m_active]->getKBD();
             ret = write(guest_fd, buf, BUF_SIZE);
             if (ret < 0)
             {
-                perror("[ERR] Writing guest mouse fd failed");
+                perror("[ERR] Writing guest keyboard fd failed");
                 continue;
             }
         }
