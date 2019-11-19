@@ -10,7 +10,7 @@ class SystemSwitch
 public:
     SystemSwitch()
         : m_active(0) { m_systems.reserve(MAX_SYS_LEN); }
-    ~SystemSwitch() {}
+    ~SystemSwitch();
 
 public:
     // add System instance to 'm_systems'

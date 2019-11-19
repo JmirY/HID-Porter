@@ -9,6 +9,14 @@
 
 #define BUF_SIZE 8
 
+SystemSwitch::~SystemSwitch()
+{
+    for (System* pSys : m_systems)
+    {
+        if (pSys != nullptr) delete pSys;
+    }
+}
+
 void
 SystemSwitch::addSystem(System* sys)
 {
