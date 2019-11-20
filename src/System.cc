@@ -75,7 +75,8 @@ HostSystem::~HostSystem()
 
 void
 HostSystem::lockEvent()
-{   
+{
+    // sleep an while to prevent infinite input
     usleep(300000);
     if ( ioctl(m_mouse_event_fd, EVIOCGRAB, 1) < 0 )
     {

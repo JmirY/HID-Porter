@@ -34,29 +34,33 @@ SystemSwitch::portMouse()
 {
     char buf[BUF_SIZE] = {0};
     int host_fd, guest_fd;
-    int ret = 0, tmp = 0;
+    int ret = 0;
 
     host_fd = m_systems[0]->getMouse();
     while (1)
     {
-        memset(buf, 0, BUF_SIZE);
-        // read data
-        ret = read(host_fd, buf, BUF_SIZE);
-        if (ret < 0)
-        {
-            perror("[ERR] Reading host mouse fd failed");
-            continue;
-        }
-
+        // there's no need to read data if active system is host
         if (m_active)
         {
+            memset(buf, 0, BUF_SIZE);
+            // read data
+            ret = read(host_fd, buf, BUF_SIZE);
+            if (ret < 0)
+            {
+                perror("[ERR] Reading host mouse fd failed");
+                continue;
+            }
+            // As porting methods are executed parallelly,
+            // 'm_active' could be changed during procedure
+            // So double check it
+            if (!m_active) continue;
             // send data
             guest_fd = m_systems[m_active]->getMouse();
             ret = write(guest_fd, buf, BUF_SIZE);
             if (ret < 0)
             {
-                perror("[ERR] Writing guest mouse fd failed");
-                continue;
+                if (errno != EAGAIN)
+                    perror("[ERR] Writing guest mouse fd failed");
             }
         }
     }
@@ -103,7 +107,6 @@ SystemSwitch::portKBD()
             if (ret < 0)
             {
                 perror("[ERR] Writing guest keyboard fd failed");
-                continue;
             }
         }
     }
