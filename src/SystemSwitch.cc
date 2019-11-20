@@ -89,7 +89,7 @@ SystemSwitch::portKBD()
         {
             if (ret == 0)
                 host->unlockEvent();
-            else
+            else if (m_active == 0)
                 host->lockEvent();
             m_active = ret;
             continue;
