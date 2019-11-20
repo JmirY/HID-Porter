@@ -7,5 +7,4 @@ public:
     ~App() {}
 
     void run();
-    // void printSysInfo(SystemSwitch&);
 };

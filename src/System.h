@@ -3,8 +3,8 @@
 class System
 {
 public:
-    // open file descriptor of input nodes
     System() {}
+    // open file descriptor of gadget device nodes
     System(const char* mouse_node , const char* kbd_node);
     virtual ~System();
 
@@ -20,6 +20,7 @@ class HostSystem : public System
 {
 public:
     HostSystem() {}
+    // open file descriptor of HID nodes & corresponding event handlers
     HostSystem(
         const char* mouse_node,
         const char* kbd_node,
@@ -27,7 +28,9 @@ public:
         const char* kbd_event_node
     );
     ~HostSystem();
-
+    // when active system is guest system,
+    // process should grab HID input event
+    // to prevent mouse/keyboard reaction at host
     void lockEvent();
     void unlockEvent();
 

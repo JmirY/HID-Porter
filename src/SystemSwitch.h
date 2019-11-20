@@ -2,7 +2,7 @@
 // JMIRY
 #include "System.h"
 #include <vector>
-
+// max size of 'm_systems'
 #define MAX_SYS_LEN 10
 
 class SystemSwitch
@@ -13,7 +13,7 @@ public:
     ~SystemSwitch();
 
 public:
-    // add System instance to 'm_systems'
+    // add pointer of System instance to 'm_systems'
     void addSystem(System*);
     // HID devices' data porting methods
     void portMouse();
