@@ -3,9 +3,8 @@
 
 #!bin/bash
 
-# USER MUST DEFINE THIS VARIABLE
 # define the number of gadget set (mouse & keyboard)
-num_of_gadget=2
+num_of_gadget=$1
 
 #--------Reusable information---------
 subsys_path="/config/usb_gadget"

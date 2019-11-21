@@ -8,9 +8,8 @@
 # Kernel module 'libcomposite', 'dummy_hcd' has to be loaded,
 # after 'libcomposite' is loaded, subsystem directory 'usb_gadget' will be appeared
 
-# USER MUST DEFINE THIS VARIABLE
 # define the number of gadget set (mouse & keyboard)
-num_of_gadget=2
+num_of_gadget=$1
 
 #-----Random product id generator-----
 # generate random product id
