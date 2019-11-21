@@ -16,7 +16,7 @@
 # define the number of gadget set (mouse & keyboard)
 num_of_gadget=2
 
-# functions
+#-----Random product id generator-----
 # generate random product id
 function generate_id()
 {
@@ -61,6 +61,7 @@ do
     product_ids[$i]=${id}
     i=$(($i+1))
 done
+#--------Reusable information---------
 
 prog_path=$(dirname $0)
 subsys_path="/config/usb_gadget"
@@ -68,113 +69,68 @@ subsys_path="/config/usb_gadget"
 vendor_id="0x1717"
 config_name="g_conf"
 # function info
-mouse_desc=${prog_path}"/mouse_desc.bin"
-kbd_desc=${prog_path}"/kbd_desc.bin"
+mouse_desc="${prog_path}/mouse_desc.bin"
+kbd_desc="${prog_path}/kbd_desc.bin"
 
-#-----create gadget mouse1-----
-g_mouse_path=${subsys_path}"/g_mouse1"
-mkdir ${g_mouse_path}
+#---------create gadget mouse---------
+i=1
+while [ $i -le ${num_of_gadget} ]
+do
+    g_mouse_path="${subsys_path}/g_mouse$i"
+    mkdir "${g_mouse_path}"
 
-# fill device info
-echo ${vendor_id} > ${g_mouse_path}"/idVendor"
-echo ${mouse1_product_id} > ${g_mouse_path}"/idProduct"
-mkdir ${g_mouse_path}"/strings/0x409"
-echo "XS" > ${g_mouse_path}"/strings/0x409/manufacturer"
-echo "Gadget Mouse1" > ${g_mouse_path}"/strings/0x409/product"
-echo "xsgadget" > ${g_mouse_path}"/strings/0x409/serialnumber"
+    # fill device info
+    echo ${vendor_id} > "${g_mouse_path}/idVendor"
+    echo ${mouse1_product_id} > "${g_mouse_path}/idProduct"
+    mkdir "${g_mouse_path}/strings/0x409"
+    echo "XS" > "${g_mouse_path}/strings/0x409/manufacturer"
+    echo "Gadget Mouse"$i > "${g_mouse_path}/strings/0x409/product"
+    echo "xsgadget" > "${g_mouse_path}/strings/0x409/serialnumber"
 
-# fill configuration info
-mkdir ${g_mouse_path}"/configs/c.1"
-mkdir ${g_mouse_path}"/configs/c.1/strings/0x409"
-echo ${config_name} > ${g_mouse_path}"/configs/c.1/strings/0x409/configuration"
+    # fill configuration info
+    mkdir "${g_mouse_path}/configs/c.1"
+    mkdir "${g_mouse_path}/configs/c.1/strings/0x409"
+    echo "${config_name}" > "${g_mouse_path}/configs/c.1/strings/0x409/configuration"
 
-# fill function info
-mkdir ${g_mouse_path}"/functions/hid.usb0"
-echo "2" > ${g_mouse_path}"/functions/hid.usb0/protocol"
-echo "1" > ${g_mouse_path}"/functions/hid.usb0/subclass"
-echo "4" > ${g_mouse_path}"/functions/hid.usb0/report_length"
-cat ${mouse_desc} > ${g_mouse_path}"/functions/hid.usb0/report_desc"
+    # fill function info
+    mkdir "${g_mouse_path}/functions/hid.usb0"
+    echo "2" > "${g_mouse_path}/functions/hid.usb0/protocol"
+    echo "1" > "${g_mouse_path}/functions/hid.usb0/subclass"
+    echo "4" > "${g_mouse_path}/functions/hid.usb0/report_length"
+    cat "${mouse_desc}" > "${g_mouse_path}/functions/hid.usb0/report_desc"
 
-# create symbolic link of function
-ln -s ${g_mouse_path}"/functions/hid.usb0" ${g_mouse_path}"/configs/c.1"
+    # create symbolic link of function
+    ln -s "${g_mouse_path}/functions/hid.usb0" "${g_mouse_path}/configs/c.1"
 
-#-----create gadget mouse2-----
-g_mouse_path=${subsys_path}"/g_mouse2"
-mkdir ${g_mouse_path}
+    i=$(($i+1))
+done
 
-# fill device info
-echo ${vendor_id} > ${g_mouse_path}"/idVendor"
-echo ${mouse2_product_id} > ${g_mouse_path}"/idProduct"
-mkdir ${g_mouse_path}"/strings/0x409"
-echo "XS" > ${g_mouse_path}"/strings/0x409/manufacturer"
-echo "Gadget Mouse2" > ${g_mouse_path}"/strings/0x409/product"
-echo "xsgadget" > ${g_mouse_path}"/strings/0x409/serialnumber"
+#-------create gadget keyboard--------
+i=1
+while [ $i -le ${num_of_gadget} ]
+    g_kbd_path="${subsys_path}/g_kbd$i"
+    mkdir "${g_kbd_path}"
 
-# fill configuration info
-mkdir ${g_mouse_path}"/configs/c.1"
-mkdir ${g_mouse_path}"/configs/c.1/strings/0x409"
-echo ${config_name} > ${g_mouse_path}"/configs/c.1/strings/0x409/configuration"
+    # fill device info
+    echo ${vendor_id} > "${g_kbd_path}/idVendor"
+    echo ${kbd1_product_id} > "${g_kbd_path}/idProduct"
+    mkdir "${g_kbd_path}/strings/0x409"
+    echo "XS" > "${g_kbd_path}/strings/0x409/manufacturer"
+    echo "Gadget KBD"$i > "${g_kbd_path}/strings/0x409/product"
+    echo "xsgadget" > "${g_kbd_path}/strings/0x409/serialnumber"
 
-# fill function info
-mkdir ${g_mouse_path}"/functions/hid.usb0"
-echo "2" > ${g_mouse_path}"/functions/hid.usb0/protocol"
-echo "1" > ${g_mouse_path}"/functions/hid.usb0/subclass"
-echo "4" > ${g_mouse_path}"/functions/hid.usb0/report_length"
-cat ${mouse_desc} > ${g_mouse_path}"/functions/hid.usb0/report_desc"
+    # fill configuration info
+    mkdir "${g_kbd_path}/configs/c.1"
+    mkdir "${g_kbd_path}/configs/c.1/strings/0x409"
+    echo "${config_name}" > "${g_kbd_path}/configs/c.1/strings/0x409/configuration"
 
-# create symbolic link of function
-ln -s ${g_mouse_path}"/functions/hid.usb0" ${g_mouse_path}"/configs/c.1"
+    # fill function info
+    mkdir "${g_kbd_path}/functions/hid.usb0"
+    echo "1" > "${g_kbd_path}/functions/hid.usb0/protocol"
+    echo "1" > "${g_kbd_path}/functions/hid.usb0/subclass"
+    echo "8" > "${g_kbd_path}/functions/hid.usb0/report_length"
+    cat "${kbd_desc}" > "${g_kbd_path}/functions/hid.usb0/report_desc"
 
-#-----create gadget keyboard1-----
-g_kbd_path=${subsys_path}"/g_kbd1"
-mkdir ${g_kbd_path}
-
-# fill device info
-echo ${vendor_id} > ${g_kbd_path}"/idVendor"
-echo ${kbd1_product_id} > ${g_kbd_path}"/idProduct"
-mkdir ${g_kbd_path}"/strings/0x409"
-echo "XS" > ${g_kbd_path}"/strings/0x409/manufacturer"
-echo "Gadget KBD1" > ${g_kbd_path}"/strings/0x409/product"
-echo "xsgadget" > ${g_kbd_path}"/strings/0x409/serialnumber"
-
-# fill configuration info
-mkdir ${g_kbd_path}"/configs/c.1"
-mkdir ${g_kbd_path}"/configs/c.1/strings/0x409"
-echo ${config_name} > ${g_kbd_path}"/configs/c.1/strings/0x409/configuration"
-
-# fill function info
-mkdir ${g_kbd_path}"/functions/hid.usb0"
-echo "1" > ${g_kbd_path}"/functions/hid.usb0/protocol"
-echo "1" > ${g_kbd_path}"/functions/hid.usb0/subclass"
-echo "8" > ${g_kbd_path}"/functions/hid.usb0/report_length"
-cat ${kbd_desc} > ${g_kbd_path}"/functions/hid.usb0/report_desc"
-
-# create symbolic link of function
-ln -s ${g_kbd_path}"/functions/hid.usb0" ${g_kbd_path}"/configs/c.1"
-
-#-----create gadget keyboard2-----
-g_kbd_path=${subsys_path}"/g_kbd2"
-mkdir ${g_kbd_path}
-
-# fill device info
-echo ${vendor_id} > ${g_kbd_path}"/idVendor"
-echo ${kbd2_product_id} > ${g_kbd_path}"/idProduct"
-mkdir ${g_kbd_path}"/strings/0x409"
-echo "XS" > ${g_kbd_path}"/strings/0x409/manufacturer"
-echo "Gadget KBD2" > ${g_kbd_path}"/strings/0x409/product"
-echo "xsgadget" > ${g_kbd_path}"/strings/0x409/serialnumber"
-
-# fill configuration info
-mkdir ${g_kbd_path}"/configs/c.1"
-mkdir ${g_kbd_path}"/configs/c.1/strings/0x409"
-echo ${config_name} > ${g_kbd_path}"/configs/c.1/strings/0x409/configuration"
-
-# fill function info
-mkdir ${g_kbd_path}"/functions/hid.usb0"
-echo "1" > ${g_kbd_path}"/functions/hid.usb0/protocol"
-echo "1" > ${g_kbd_path}"/functions/hid.usb0/subclass"
-echo "8" > ${g_kbd_path}"/functions/hid.usb0/report_length"
-cat ${kbd_desc} > ${g_kbd_path}"/functions/hid.usb0/report_desc"
-
-# create symbolic link of function
-ln -s ${g_kbd_path}"/functions/hid.usb0" ${g_kbd_path}"/configs/c.1"
+    # create symbolic link of function
+    ln -s "${g_kbd_path}/functions/hid.usb0" "${g_kbd_path}/configs/c.1"
+done
