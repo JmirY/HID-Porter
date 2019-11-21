@@ -17,6 +17,7 @@
 num_of_gadget=2
 
 # functions
+# generate random product id
 function generate_id()
 {
     MIN=999
@@ -30,6 +31,8 @@ function generate_id()
     echo ${id}
 }
 
+# check if 'id' is duplicated
+# param 1: id, param 2: array
 function is_dup()
 {
     id=$1; shift; arr=$@
