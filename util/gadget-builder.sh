@@ -4,13 +4,9 @@
 #!bin/bash
 
 ### Prerequisite
-# User must mounts configfs on / dir.
-# Kernel module 'libcomposite' has to be loaded,
-# then subsystem directory 'usb_gadget' will be appeared
-### After execution
-# Input dummy HCD instance's name to /configfs/{gadget}/UDC
-# ex) echo dummy_udc.0 > UDC
-# To check dummy HCD instances, $(ls /sys/class/udc)
+# User must mounts configfs on /config dir
+# Kernel module 'libcomposite', 'dummy_hcd' has to be loaded,
+# after 'libcomposite' is loaded, subsystem directory 'usb_gadget' will be appeared
 
 # USER MUST DEFINE THIS VARIABLE
 # define the number of gadget set (mouse & keyboard)
@@ -103,6 +99,12 @@ do
     # create symbolic link of function
     ln -s "${g_mouse_path}/functions/hid.usb0" "${g_mouse_path}/configs/c.1"
 
+    # attach gadget to dummy UDC
+    echo "dummy_udc.$i" > "${g_mouse_path}/UDC"
+
+    # echo corresponding device node
+    echo "g_mouse${num} : /dev/hidg$i"
+
     i=$(expr $i + 1)
     num=$(expr $num + 1)
 done
@@ -136,6 +138,12 @@ do
 
     # create symbolic link of function
     ln -s "${g_kbd_path}/functions/hid.usb0" "${g_kbd_path}/configs/c.1"
+
+    # attach gadget to dummy UDC
+    echo "dummy_udc.$i" > "${g_kbd_path}/UDC"
+
+    # echo corresponding device node
+    echo "g_kbd${num} : /dev/hidg$i"
 
     i=$(expr $i + 1)
     num=$(expr $num + 1)
