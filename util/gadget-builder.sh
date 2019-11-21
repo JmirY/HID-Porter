@@ -12,15 +12,41 @@
 # ex) echo dummy_udc.0 > UDC
 # To check dummy HCD instances, $(ls /sys/class/udc)
 
+# USER MUST DEFINE THIS VARIABLE
+# define the number of gadget set (mouse & keyboard)
+num_of_gadget=2
+
+# functions
+function generate_id()
+{
+    MIN=999
+    MAX=10000
+    id=0
+    while [ ${id} -le ${MIN} ]
+    do
+        id=${RANDOM}
+        id=`expr ${id} % ${MAX}`
+    done
+    echo ${id}
+}
+
+# create random product ids
+arr_size=$(expr ${num_of_gadget} \* 2)
+product_ids=()
+
+i=0
+while [ ${i} -lt ${arr_size} ]
+do
+    # make 4-digit-id
+    id=$(generate_id)
+    product_ids[$i]=${id}
+    i=$(($i+1))
+done
+
 prog_path=$(dirname $0)
 subsys_path="/config/usb_gadget"
 # device info
 vendor_id="0x1717"
-mouse1_product_id="0x1919"
-kbd1_product_id="0x2020"
-mouse2_product_id="0x2121"
-kbd2_product_id="0x2222"
-# configuration info
 config_name="g_conf"
 # function info
 mouse_desc=${prog_path}"/mouse_desc.bin"
