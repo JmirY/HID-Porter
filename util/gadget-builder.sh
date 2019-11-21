@@ -69,22 +69,23 @@ subsys_path="/config/usb_gadget"
 vendor_id="0x1717"
 config_name="g_conf"
 # function info
-mouse_desc="${prog_path}/mouse_desc.bin"
-kbd_desc="${prog_path}/kbd_desc.bin"
+mouse_desc="${prog_path}/descriptor/mouse_desc.bin"
+kbd_desc="${prog_path}/descriptor/kbd_desc.bin"
 
 #---------create gadget mouse---------
-i=1
-while [ $i -le ${num_of_gadget} ]
+i=0
+num=1
+while [ $i -lt ${num_of_gadget} ]
 do
-    g_mouse_path="${subsys_path}/g_mouse$i"
+    g_mouse_path="${subsys_path}/g_mouse${num}"
     mkdir "${g_mouse_path}"
 
     # fill device info
     echo ${vendor_id} > "${g_mouse_path}/idVendor"
-    echo ${mouse1_product_id} > "${g_mouse_path}/idProduct"
+    echo "${product_ids[$i]}" > "${g_mouse_path}/idProduct"
     mkdir "${g_mouse_path}/strings/0x409"
     echo "XS" > "${g_mouse_path}/strings/0x409/manufacturer"
-    echo "Gadget Mouse"$i > "${g_mouse_path}/strings/0x409/product"
+    echo "Gadget Mouse${num}" > "${g_mouse_path}/strings/0x409/product"
     echo "xsgadget" > "${g_mouse_path}/strings/0x409/serialnumber"
 
     # fill configuration info
@@ -102,21 +103,23 @@ do
     # create symbolic link of function
     ln -s "${g_mouse_path}/functions/hid.usb0" "${g_mouse_path}/configs/c.1"
 
-    i=$(($i+1))
+    i=$(expr $i + 1)
+    num=$(expr $num + 1)
 done
 
 #-------create gadget keyboard--------
-i=1
-while [ $i -le ${num_of_gadget} ]
-    g_kbd_path="${subsys_path}/g_kbd$i"
+num=1
+while [ $i -lt ${arr_size} ]
+do
+    g_kbd_path="${subsys_path}/g_kbd${num}"
     mkdir "${g_kbd_path}"
 
     # fill device info
     echo ${vendor_id} > "${g_kbd_path}/idVendor"
-    echo ${kbd1_product_id} > "${g_kbd_path}/idProduct"
+    echo ${product_ids[$i]} > "${g_kbd_path}/idProduct"
     mkdir "${g_kbd_path}/strings/0x409"
     echo "XS" > "${g_kbd_path}/strings/0x409/manufacturer"
-    echo "Gadget KBD"$i > "${g_kbd_path}/strings/0x409/product"
+    echo "Gadget KBD${num}" > "${g_kbd_path}/strings/0x409/product"
     echo "xsgadget" > "${g_kbd_path}/strings/0x409/serialnumber"
 
     # fill configuration info
@@ -133,4 +136,7 @@ while [ $i -le ${num_of_gadget} ]
 
     # create symbolic link of function
     ln -s "${g_kbd_path}/functions/hid.usb0" "${g_kbd_path}/configs/c.1"
+
+    i=$(expr $i + 1)
+    num=$(expr $num + 1)
 done

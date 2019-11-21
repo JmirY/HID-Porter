@@ -24,7 +24,7 @@ do
     rmdir "${g_mouse_path}/functions/hid.usb0"
     rmdir "${g_mouse_path}"
     
-    i=`expr $i + 1`
+    i=$(expr $i + 1)
 done
 
 #------clean up gadget keyboard-------
@@ -41,5 +41,5 @@ do
     rmdir "${g_kbd_path}/functions/hid.usb0"
     rmdir "${g_kbd_path}"
 
-    i=`expr $i + 1`
+    i=$(expr $i + 1)
 done
