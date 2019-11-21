@@ -30,6 +30,18 @@ function generate_id()
     echo ${id}
 }
 
+function is_dup()
+{
+    id=$1; shift; arr=$@
+    for element in ${arr[@]}
+    do
+        if [ "${element}" == "${id}" ]; then
+            echo "true"; return
+        fi
+    done
+    echo "false"
+}
+
 # create random product ids
 arr_size=$(expr ${num_of_gadget} \* 2)
 product_ids=()
@@ -39,6 +51,10 @@ while [ ${i} -lt ${arr_size} ]
 do
     # make 4-digit-id
     id=$(generate_id)
+    while [ $(is_dup ${id} ${product_ids[@]}) == "true" ]
+    do
+        id=$(generate_id)
+    done
     product_ids[$i]=${id}
     i=$(($i+1))
 done
