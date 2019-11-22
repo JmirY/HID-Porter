@@ -18,19 +18,7 @@
           Should change module source to expand limit.  
             
 ***Configfs*** and module ***dummy_hcd*** may be disbaled for default kernel user.  
-User should edit kernel configuration to enable this.  
-  
-- Plugged USB-HID device information  
-     User have to input correct device node of mouse & keyboard ( ***/dev/hidraw**** )  
-     and corresponding event handler ( ***/dev/input/event**** ).  
-    This data is hard coded at **src/*App.cc*** like below
-    ```cpp
-    #define HOST_MOUSE "/dev/hidraw2"
-    #define HOST_KBD "/dev/hidraw0"
-    #define HOST_MOUSE_EV "/dev/input/event17"
-    #define HOST_KBD_EV "/dev/input/event11"
-    ```  
-    This stupid mechanism should be fixed ASAP :(
+User should edit kernel configuration to enable those.  
 
 ## How to Build  
 Use ***g++*** with ***-pthread*** option
@@ -43,6 +31,10 @@ $ g++ -o HID-Porter < src > -pthread
 # run as root user
 $ sudo ./HID-Porter
 <<<<< HID-Porter >>>>>
+# input host HID node path
+--> Input info about host
+--> Mouse device node : /dev/hidraw0
+--> Keyboard device node : /dev/hidraw1
 --> How many VMs want to attach? (up to 9): 2
 # input gadget device node path
 --> Input info about guest no.1
