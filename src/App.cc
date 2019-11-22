@@ -23,22 +23,22 @@ App::run()
     std::cin >> kbd;
 
     // find event handler of each device
-    std::string mouseHandler("/dev/input/");
-    std::string kbdHandler("/dev/input/");
+    std::string mouseStr("/dev/input/");
+    std::string kbdStr("/dev/input/");
     char buf[BUF_SIZE] = {0};
     findHandler(mouse, buf);
-    mouseHandler += buf;
+    mouseStr += buf;
 
     memset(buf, 0, BUF_SIZE);
     findHandler(kbd, buf);
-    kbdHandler += buf;
+    kbdStr += buf;
 
     // create host system & system switch instance
     HostSystem* host = new HostSystem(
         mouse,
         kbd,
-        mouseHandler.c_str(),
-        kbdHandler.c_str()
+        mouseStr.c_str(),
+        kbdStr.c_str()
     );
     SystemSwitch sysSwitch = SystemSwitch();
     sysSwitch.addSystem(host);
@@ -52,16 +52,26 @@ App::run()
     } while (cnt < 1 | cnt > 9);
     
     // add guests to switch
+    mouseStr.clear();
+    kbdStr.clear();
+    mouseStr = "/dev/hidg";
+    kbdStr = "/dev/hidg";
+    char mouseNum[BUF_SIZE]={0};
+    char kbdNum[BUF_SIZE]={0};
     for (int i = 0; i < cnt; ++i)
     {
-        memset(mouse, 0, BUF_SIZE);
-        memset(kbd, 0, BUF_SIZE);
-        std::cout << "--> Input info about guest no." << i+1 << std::endl;
-        std::cout << "--> Gadget mouse device node : ";
-        std::cin >> mouse;
-        std::cout << "--> Gadget keyboard device node : ";
-        std::cin >> kbd;
-        sysSwitch.addSystem( new System(mouse, kbd) );
+        memset(mouseNum, 0, BUF_SIZE);
+        memset(kbdNum, 0, BUF_SIZE);
+
+        sprintf(mouseNum, "%d", i);
+        sprintf(kbdNum, "%d", i+cnt);
+
+        sysSwitch.addSystem(
+            new System(
+                std::string(mouseStr + mouseNum).c_str(),
+                std::string(kbdStr + kbdNum).c_str()
+            )
+        );
     }
 
     // port HID device input data to designated system
