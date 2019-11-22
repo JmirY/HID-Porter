@@ -8,6 +8,11 @@
 # Kernel module 'libcomposite', 'dummy_hcd' has to be loaded,
 # after 'libcomposite' is loaded, subsystem directory 'usb_gadget' will be appeared
 
+# check args
+if [ $# == 0 ]; then
+    echo "Usage : ./gadget-builder.sh [num_of_gadget]"
+    exit
+fi
 # define the number of gadget set (mouse & keyboard)
 num_of_gadget=$1
 

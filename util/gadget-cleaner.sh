@@ -3,6 +3,11 @@
 
 #!bin/bash
 
+# check args
+if [ $# == 0 ]; then
+    echo "Usage : ./gadget-cleaner.sh [num_of_gadget]"
+    exit
+fi
 # define the number of gadget set (mouse & keyboard)
 num_of_gadget=$1
 
