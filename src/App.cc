@@ -6,10 +6,6 @@
 #include <cstring>
 #include <thread>
 
-#define HOST_MOUSE "/dev/hidraw2"
-#define HOST_KBD "/dev/hidraw0"
-#define HOST_MOUSE_EV "/dev/input/event17"
-#define HOST_KBD_EV "/dev/input/event11"
 #define BUF_SIZE 64
 
 void
