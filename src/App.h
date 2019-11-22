@@ -7,4 +7,5 @@ public:
     ~App() {}
 
     void run();
+    void findHandler(const char* node, char* buf);
 };
