@@ -36,13 +36,7 @@ $ sudo ./HID-Porter
 --> Mouse device node : /dev/hidraw0
 --> Keyboard device node : /dev/hidraw1
 --> How many VMs want to attach? (up to 9): 2
-# input gadget device node path
---> Input info about guest no.1
---> Gadget mouse device node : /dev/hidg0
---> Gadget keyboard device node : /dev/hidg2
---> Input info about guest no.2
---> Gadget mouse device node : /dev/hidg1
---> Gadget keyboard device node : /dev/hidg3
+# HID-Porter will find gadget node automatically
 # As HID-Porter initiated properly,
 # message will be printed as below
 --> Porters are working :)
