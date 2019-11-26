@@ -11,11 +11,17 @@
     > Gadget-builder script consider ***/config*** as mount point of configfs by default.  
     User can change it by editing ***util/gadget-builder.sh***
 
-- Linux kernel module  
-    - libcomposite  
+- Linux kernel module   
     - dummy_hcd  
         > The maximum number of dummy HCD can be created is 2 by default.  
           Should change module source to expand limit.  
+  
+      Following three modules need to be recompiled if user want to link more than 2 VMs.
+    - udc_core
+    - libcomposite 
+    - usb_f_hid  
+        A variable in this file defines the max number of HID gadgets can be created.  
+        Default value is 4.  So user has to modify this value to expand the limit.
             
 ***Configfs*** and module ***dummy_hcd*** may be disbaled for default kernel user.  
 User should edit kernel configuration to enable those.  
