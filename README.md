@@ -33,6 +33,23 @@ $ g++ -o HID-Porter < src > -pthread
 ```
 
 ## How to Use  
+Use `util/gadget-builder.sh` or `util/gadget-cleaner.sh`  
+to create / remove HID gadget.
+```bash
+$ pwd
+~/HID-Porter/util
+# input the number of gadget-set (mouse + kbd) should be created
+$ sudo ./gadget-builder 2
+# after creation, script prints device node of each gadgets
+g_mouse1 : /dev/hidg0
+g_mouse2 : /dev/hidg1
+g_kbd1 : /dev/hidg2
+g_kbd2 : /dev/hidg3
+
+# user also provide the num of gadget-set when removing the gadgets
+$ sudo ./gadget-cleaner 2
+```
+Finally, it's time to rock!
 ```bash
 # run as root user
 $ sudo ./HID-Porter
